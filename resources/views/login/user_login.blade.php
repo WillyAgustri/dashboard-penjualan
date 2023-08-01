@@ -32,6 +32,10 @@
                                     <li> {{ $message }}</li>
                                 </ul>
 
+                                <script>
+                                    toastr.warning('Pastikan Email anda benar!');
+                                </script>
+
                             </div>
                         @enderror
                     </div>
@@ -49,6 +53,11 @@
                                 <ul>
                                     <li> {{ $message }}</li>
                                 </ul>
+
+
+                                <script>
+                                    toastr.warning('Pastikan Password anda benar!');
+                                </script>
 
                             </div>
                         @enderror

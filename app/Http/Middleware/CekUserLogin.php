@@ -16,7 +16,7 @@ class CekUserLogin
     public function handle(Request $request, \Closure $next, $rules): Response
     {
         if (!Auth::check()) {
-            return redirect('dashboard');
+            return redirect()->route('showProduct');
         }
 
         $user = Auth::user();

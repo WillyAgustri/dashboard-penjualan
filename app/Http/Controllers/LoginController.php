@@ -16,13 +16,12 @@ class LoginController extends Controller
     {
         if ($user = Auth::user()) {
             if ($user->level == '1') {
-                return redirect()->intended('home-user');
+                return redirect()->route('home')->with('error', 'Kamu tidak memiliki akses Admin!');
             } elseif ($user->level == '2') {
                 return redirect()->route('index');
             }
         }
-
-        return view('login.user_login');
+        return view('login.user_login')->with('error', 'Tidak dapat diakses!');
     }
 
     public function proses_login(Request $request)
@@ -42,26 +41,20 @@ class LoginController extends Controller
             $user = Auth::user();
             if ($user->level == '1') {
                 // !Home User yang digunakan masih pakai home Dashboard
-                return redirect()->route('home');
+                return redirect()->route('home')->with('info', 'selamat datang '.$user->name);
             } elseif ($user->level == '2') {
                 return redirect()->route('index');
             }
-
-            return redirect()->route('login-user');
+            return redirect()->route('login-user')->with('error', 'Harap Masukan email dan password dengan benar!');
         }
-
-        return back()->withErrors([
-            'email' => 'Maaf, username atau password Anda salah.',
-        ]);
+        return back()->with('error', 'Maaf Username atau password tidak valid');
     }
 
     public function proses_logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect()->route('login-user');
     }
 
@@ -83,10 +76,8 @@ class LoginController extends Controller
 
         if ($data) {
             User::create($data);
-
-            return redirect()->route('login-user');
+            return redirect()->route('login-user')->with('success', 'Akun Berhasil Dibuat!');
         }
-
         return back()->withError([
             'name' => 'Pendaftaran Gagal. Silahkan Isi dengan benar',
             ]);

@@ -67,7 +67,7 @@
                                 {{ $item->quantity }}
                             </td>
                             <td class="table-customers-col text-center">
-                                {{ $item->price }}
+                                {{ $item->formatRupiah('price') }}
                             </td>
 
                             <td>

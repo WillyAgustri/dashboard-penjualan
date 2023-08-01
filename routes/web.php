@@ -20,17 +20,15 @@ use Illuminate\Support\Facades\Route;
 EVERYONE CAN ACCESS IT EVEN IF THEY ACCES MANUAL.
 */
 
-Route::get('home', function () {
-    return view('sales.home');
-})->name('home');
-
-Route::get('register-user', function () {
-    return view('login.user_register');
-})->name('register-user');
-
-Route::get('/', [PenjualanController::class, 'show_product'])->name('showProduct');
+Route::view('home', 'sales.home')->name('home');
+Route::view('register-user', 'login.user_register')->name('register-user');
+Route::view('welcome', 'ShopInterface.landing_home')->name('landing-page');
+Route::get('/shop', [PenjualanController::class, 'show_product'])->name('showProduct');
 
 Route::controller(LoginController::class)->group(function () {
+    /*
+     INFO:This is for Login
+     */
     Route::get('login-user', 'index')->name('login-user');
     Route::post('login-user/proses', 'proses_login')->name('proses-user');
     Route::get('logout', 'proses_logout')->name('user-logout');
