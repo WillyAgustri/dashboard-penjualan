@@ -11,6 +11,9 @@ class Sales extends Model
     use HasFactory;
     use HasFormatRupiah;
 
+    protected $primaryKey = 'product_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'product_id',
         'product_name',
@@ -19,10 +22,4 @@ class Sales extends Model
         'quantity',
         'price',
     ];
-
-    public $primaryKey = 'product_id';
-
-    public $incrementing = false;
-
-    protected $keyType = 'string';
 }

@@ -14,7 +14,7 @@
                     <label><strong>Kode Produk</strong></label>
                     <div class="custom-file pb-5">
 
-                        <input type="number" multiple class="custom-file-input form-control" id="product_id"
+                        <input type="text" multiple class="custom-file-input form-control" id="product_id"
                             placeholder="Masukan Nama Produk" name="product_id">
                     </div>
                     <label><strong>Nama Produk</strong></label>

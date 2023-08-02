@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 EVERYONE CAN ACCESS IT EVEN IF THEY ACCES MANUAL.
 */
 
-Route::view('home', 'sales.home')->name('home');
 Route::view('register-user', 'login.user_register')->name('register-user');
 Route::view('welcome', 'ShopInterface.landing_home')->name('landing-page');
 Route::get('/shop', [PenjualanController::class, 'show_product'])->name('showProduct');
@@ -54,11 +53,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/dashboard/tambah', [PenjualanController::class, 'store'])->name('store');
 
         // Route Edit
-        Route::get('/dashboard/edit/{product_id}', [PenjualanController::class, 'show'])->name('show');
-        Route::post('/dashboard/dashboard/edit/{product_id}', [PenjualanController::class, 'edit'])->name('edit');
+        Route::get('/dashboard/edit/{product_id}', [PenjualanController::class, 'edit'])->name('edit');
+        Route::post('/dashboard/edit/{product_id}', [PenjualanController::class, 'proses_edit'])->name('proses-edit');
 
         // Route Hapus
         Route::delete('/dashboard/delete/{product_id}', [PenjualanController::class, 'destroy'])->name('destroy');
     });
+
+    Route::view('home', 'sales.home')->name('home');
+
     /* END AUTH */
 });

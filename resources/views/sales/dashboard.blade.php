@@ -73,7 +73,7 @@
                             <td>
                                 <div class="action d-flex justify-content-center align-self-center">
                                     <a class="btn btn-sm btn-warning text-white me-1 "
-                                        href="{{ route('show', $item->product_id) }}"><i
+                                        href="{{ route('edit', $item->product_id) }}"><i
                                             class="fa-solid fa-pen-to-square"></i>Edit</a>
                                     <form action="{{ route('destroy', $item->product_id) }}" method="post">
                                         @csrf

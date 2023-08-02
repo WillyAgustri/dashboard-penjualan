@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePenjualanRequest;
+use App\Http\Requests\UpdatePenjualanRequest;
 use App\Models\Sales;
 use Hashids\Hashids;
 
@@ -22,6 +23,9 @@ class PenjualanController extends Controller
     }
 
     public function show_product()
+    /*
+    Menampilkan data
+    */
     {
         // To Display Sales with paginate 5 per row
         $data_penjualan = Sales::paginate(10);
@@ -34,11 +38,8 @@ class PenjualanController extends Controller
      */
     public function store(StorePenjualanRequest $request)
     {
-        // Mengvalidasi Request Dari Form
         $data = $request->validate([
-            // Ini adalah name dari atribut input pada form gunanya sebagai
-            // Aturan atau istilahnya Validasi
-            'product_id' => 'required| max:10',
+            'product_id' => 'required|max:10',
             'product_name' => 'required',
             'brand' => 'required',
             'quantity' => 'required',
@@ -46,7 +47,6 @@ class PenjualanController extends Controller
             'picture' => '',
         ]);
 
-        // Untuk Menyimpan picture ke Folder Storage
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
             $fileName = time().'_'.$file->getClientOriginalName();
@@ -54,35 +54,50 @@ class PenjualanController extends Controller
             $data['picture'] = $filePath;
         }
 
-        // Menginisialisasi Hashid untuk mengencripsi product_id
         $hashids = new Hashids();
 
-        // Mendapatkan product_id dari array $data,
-        // Yang nantinya di encode dengan hashids
         $data['product_id'] = $hashids->encode($data['product_id']);
 
         // Membuat Data
         Sales::create($data);
 
-        // Kembali ke route index
         return redirect()->route('index');
     }
 
-    public function show($product_id)
+    public function edit($product_id)
     {
         $data = Sales::find($product_id);
-
         $hashids = new Hashids();
         $decryptedProductId = $hashids->decode($data['product_id']);
 
-        return view('sales.edit')->with([
-        'product_id' => $decryptedProductId[0],
-        'product_name' => $data->product_name,
-        'brand' => $data->brand,
-        'quantity' => $data->quantity,
-        'price' => $data->price,
-        'picture' => $data->price,
+        return view('sales.edit', compact('data'))->with(['product_id' => $decryptedProductId[0]]);
+    }
+
+    public function proses_edit(UpdatePenjualanRequest $request, $product_id)
+    {
+        $update_data = $request->validate([
+            'product_name' => 'required',
+            'brand' => 'required',
+            'quantity' => 'required',
+            'price' => 'required',
+            'picture' => '',
         ]);
+
+        $data = Sales::find($product_id);
+        $data->product_name = $update_data['product_name'];
+        $data->brand = $update_data['brand'];
+        $data->quantity = $update_data['quantity'];
+        $data->price = $update_data['price'];
+
+        if ($request->hasFile('picture')) {
+            $file = $request->file('picture');
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $filePath = $file->storeAs('', $fileName, 'public');
+            $data->picture = $filePath;
+        }
+        $data->save();
+
+        return redirect()->route('index');
     }
 
     /**
