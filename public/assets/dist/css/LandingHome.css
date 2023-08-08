@@ -4,38 +4,24 @@
     --primary-color: #3a4052;
 }
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-}
-
-h1 {
-    font-weight: 300;
-    font-size: 60px;
-    line-height: 1.2;
-    margin-bottom: 15px;
-}
-
 .showcase {
+    background-image: url("https://assets-global.website-files.com/5d8a2888296e91abbdcb65f0/627a462a56881ace6ce1ae16_Big_phone_with_cart-p-800.jpeg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    filter: brightness(80%);
+    margin-top: 30px;
+    border-radius: 3px;
     height: 100vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff;
-    padding: 0 20px;
 }
 
-.video-container {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: var(--primary-color)
-        url("https://images.ctfassets.net/17o2epk8ivh7/39iLkk8rLyF7llth1Vqqov/f8113dbb3ce21ed36404c549fa96ba39/ShopifyPlus_SEO_Product_Descriptions_3840x2160.png?h=1215&q=90&w=2160")
-        no-repeat center center/cover;
+.showcase::after {
+    color: rgb(245, 245, 245);
 }
 
 .video-container video {
@@ -48,17 +34,6 @@ h1 {
     object-fit: cover;
 }
 
-.video-container:after {
-    content: "";
-    z-index: 1;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-    position: absolute;
-}
-
 .content {
     z-index: 1;
 }
@@ -69,13 +44,14 @@ h1 {
     background: var(--primary-color);
     color: #fff;
     border-radius: 5px;
-    border: solid #fff 1px;
+    text-decoration: none;
     margin-top: 25px;
     opacity: 0.7;
 }
 
-.btn:hover {
+.btn-shop:hover {
     transform: scale(0.98);
+    color: antiquewhite;
 }
 
 #about {

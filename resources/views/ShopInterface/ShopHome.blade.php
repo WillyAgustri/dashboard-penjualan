@@ -107,7 +107,8 @@
                         <h6>{{ $item->formatRupiah('price') }}</h6>
                         <div class="d-flex"></div>
                         <button class="btn btn-sm btn-danger"><i class="fa-solid fa-bag-shopping"></i>BUY</button>
-                        <button class="btn btn-sm btn-warning"><i class="fa-solid fa-cart-shopping"></i>Cart</button>
+                        <a href="{{ route('add-cart', $item->product_id) }}" class="btn btn-sm btn-warning"><i
+                                class="fa-solid fa-cart-shopping"></i>Cart</a>
                     </div>
 
                 </div>

@@ -13,8 +13,11 @@ class PenjualanController extends Controller
      * Display a listing of the resource.
      */
 
-    /* untuk Admin */
-    public function index()
+    /**
+     * untuk Admin.
+     *
+     * */
+    public function showDashboard()
     {
         // To Display Sales with paginate 5 per row
         $data_penjualan = Sales::paginate(5);
@@ -22,7 +25,7 @@ class PenjualanController extends Controller
         return view('sales.dashboard', compact('data_penjualan'));
     }
 
-    public function show_product()
+    public function showProduct()
     /*
     Menampilkan data
     */
@@ -61,7 +64,7 @@ class PenjualanController extends Controller
         // Membuat Data
         Sales::create($data);
 
-        return redirect()->route('index');
+        return redirect()->route('show-dashboard');
     }
 
     public function edit($product_id)
@@ -97,7 +100,7 @@ class PenjualanController extends Controller
         }
         $data->save();
 
-        return redirect()->route('index');
+        return redirect()->route('show-dashboard');
     }
 
     /**
@@ -105,8 +108,9 @@ class PenjualanController extends Controller
      */
     public function destroy($product_id)
     {
+        $findId = Sales::find($product_id);
         Sales::destroy($product_id);
 
-        return redirect()->route('index');
+        return redirect()->back()->with('success', $findId->product_name.' Berhasil Dihapus');
     }
 }

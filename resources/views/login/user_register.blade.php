@@ -81,7 +81,7 @@
 
                     <button type="submit" name="submit" id="submit" class="btn btn-sm btn-primary">
                         Create</button>
-                    <a class="btn-back btn btn-sm btn-warning" href="{{ route('login-user') }}">Back</a>
+                    <a class="btn-back btn btn-sm btn-warning" href="{{ route('user-login') }}">Back</a>
                 </form>
 
                 <div class="text-center text-secondary mb-1">ATAU</div>

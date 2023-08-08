@@ -18,7 +18,7 @@ class Authenticate extends Middleware
             // Menyimpan data kedalam sesi hanya untuk sekali
             Session::flash('error', 'Anda harus login untuk mengakses halaman ini.');
 
-            return route('login-user');
+            return route('user-login');
         }
     }
 }

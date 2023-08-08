@@ -6,6 +6,7 @@ use App\Http\Requests\StoreLoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -18,9 +19,10 @@ class LoginController extends Controller
             if ($user->level == '1') {
                 return redirect()->route('home')->with('error', 'Kamu tidak memiliki akses Admin!');
             } elseif ($user->level == '2') {
-                return redirect()->route('index');
+                return redirect()->route('show-dashboard');
             }
         }
+
         return view('login.user_login')->with('error', 'Tidak dapat diakses!');
     }
 
@@ -40,13 +42,14 @@ class LoginController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             if ($user->level == '1') {
-                // !Home User yang digunakan masih pakai home Dashboard
-                return redirect()->route('home')->with('info', 'selamat datang '.$user->name);
+                return redirect()->route('landing-page')->with('info', 'selamat datang '.$user->name);
             } elseif ($user->level == '2') {
-                return redirect()->route('index');
+                return redirect()->route('show-dashboard');
             }
+
             return redirect()->route('login-user')->with('error', 'Harap Masukan email dan password dengan benar!');
         }
+
         return back()->with('error', 'Maaf Username atau password tidak valid');
     }
 
@@ -55,7 +58,8 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login-user');
+
+        return redirect()->route('user-login');
     }
 
     public function store(StoreLoginRequest $request)
@@ -76,10 +80,42 @@ class LoginController extends Controller
 
         if ($data) {
             User::create($data);
+
             return redirect()->route('login-user')->with('success', 'Akun Berhasil Dibuat!');
         }
+
         return back()->withError([
             'name' => 'Pendaftaran Gagal. Silahkan Isi dengan benar',
             ]);
+    }
+
+    public function edit_akun(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('login.user_edit', compact('user'));
+    }
+
+    public function proses_edit_akun(Request $request, User $user)
+    {
+        $request->validate([
+            'Oldpassword' => 'required',
+            'Newpassword' => 'required',
+            'password_confirmation' => 'required_with:Newpassword',
+        ]);
+
+        $get_auth = Auth::user();
+
+        $user = User::find($get_auth->id);
+
+        if (!Hash::check($request->Oldpassword, $user->password)) {
+            return back()->with(['error' => 'Password lama tidak cocok']);
+        } else {
+            $user->password = bcrypt($request->input('Newpassword'));
+
+            $user->save();
+
+            return back()->with('success', 'Password Berhasil Diubah!');
+        }
     }
 }

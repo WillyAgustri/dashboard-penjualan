@@ -48,7 +48,7 @@
 
                         </li>
                         <li class="nav-item-dashboard">
-                            <a class="  nav-link" href="{{ route('index') }}"><i
+                            <a class="  nav-link" href="{{ route('show-dashboard') }}"><i
                                     class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
                         <li class="nav-item-setting">
@@ -61,6 +61,10 @@
                             <a class="nav-link" href="{{ route('user-logout') }}"><i
                                     class="fa-solid fa-right-from-bracket"></i>Log-Out</a>
                         </li>
+
+                        {{--
+                            Has Logged but just member
+                            --}}
                     @elseif (Auth::user()->level == '1')
                         <li class="nav-item-home">
                             <a class="nav-link" href="{{ route('landing-page') }}"><i
@@ -71,11 +75,14 @@
                                     class="fa-solid fa-store"></i>Shop</a>
                         </li>
                         <li class="nav-item-profile">
-                            <a class="nav-link" href="{{ route('home') }}"><i class="fa-solid fa-user"></i>Profile</a>
+                            <a class="nav-link" href="{{ route('edit-akun') }}"><i class="fa-solid fa-user"></i>Profile
+                                Setting</a>
                         </li>
                         <li class="nav-item-cart">
-                            <a class="nav-link" href="{{ route('home') }}"><i
-                                    class="fa-solid fa-cart-shopping"></i>Cart</a>
+                            <a class="nav-link" href="{{ route('cart') }}"><i class="fa-solid fa-cart-shopping"></i>Cart
+                                <span
+                                    class="badge rounded-pill text-bg-primary text-danger">{{ count((array) session('cart')) }}</span>
+                            </a>
                         </li>
                         <li class="nav-item-logout">
                             <a class="nav-link" href="{{ route('user-logout') }}"><i
@@ -93,10 +100,13 @@
                         <a class="nav-link" href="{{ route('showProduct') }}"><i class="fa-solid fa-store"></i>Shop</a>
                     </li>
                     <li class="nav-item-cart">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i>Cart</a>
+                        <a class="nav-link" href="{{ route('cart') }}"><i class="fa-solid fa-cart-shopping"></i>Cart
+                            <span
+                                class="badge rounded-pill text-bg-primary text-danger">{{ count((array) session('cart')) }}</span>
+                        </a>
                     </li>
                     <li class="nav-item-login">
-                        <a class="nav-link" href="{{ route('login-user') }}"><i
+                        <a class="nav-link" href="{{ route('user-login') }}"><i
                                 class="fa-solid fa-right-from-bracket"></i>Log-in/Register</a>
                     </li>
                 @endguest
